@@ -1,9 +1,7 @@
 
-
 powershell Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 
 @"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
-
 
 
 choco install -y fastcopy
@@ -14,7 +12,6 @@ choco install -y notepadplusplus
 choco install -y sysinternals
 choco install -y treesizefree
 choco install -y crystaldiskinfo.portable
-
 
 choco install -y anydesk-install
 choco install -y googlechrome
@@ -27,3 +24,58 @@ choco install -y softether-vpn-client
 choco install -y office365business
 
 choco install -y reflect-free
+
+choco install ussf
+
+
+
+Guia rápido
+Gerar novo pacote :
+choco new -hfará com que você comece a ver as opções disponíveis para você.
+Depois de descobrir todas as suas opções, você deve prosseguir com a geração de seu modelo.
+Edite o modelo usando o bom senso
+cd package-name
+Edite o package-name.nuspecarquivo de configuração.
+Edite o ./tools/chocolateyInstall.ps1script de instalação.
+Certifique-se de descobrir o modo silencioso do instalador. Use o Universal Silent Switch Finder , que está disponível como um pacote Choco:choco install ussf
+Você deve salvar seus arquivos com codificação de caracteres UTF-8 sem BOM. ( Detalhes )
+Crie o pacote
+Ainda no diretório do pacote
+choco pack
+"Pacote-name.1.1.0.nupkg criado com sucesso"
+Teste o pacote
+O teste provavelmente deve ser feito em uma máquina virtual
+No diretório do seu pacote, use:
+choco install package-name --source .(package-name é o elemento id no nuspec)
+Envie o pacote para o repositório de pacotes da comunidade Chocolatey:
+Obtenha uma conta Chocolatey:
+Registro
+Copie a chave API da sua conta Chocolatey .
+choco apikey --api-key [API_KEY_HERE] -source https://push.chocolatey.org/
+choco push package-name.1.1.0.nupkg --source https://push.chocolatey.org/- o arquivo nupkg pode ser omitido se for o único no diretório.
+
+
+
+
+rem choco new shodo silentargs="'/passive /norestart'" url="'https://pje.trt2.jus.br/shodo/shodo.msi'"
+rem choco new pjeoffice silentargs="'/SILENT'" url="'https://cnj-pje-programs.s3-sa-east-1.amazonaws.com/pje-office/PJeOffice.exe'"
+
+rem choco new safesign silentargs="'/s /v/qn'" url="'https://drivers.certisign.com.br/midias/gerenciadores/safesign/64bits/SafeSignIC30124-x64-win-tu-admin.exe'"
+rem choco new safenet silentargs="'/passive /norestart'" url="'https://drivers.certisign.com.br/midias/tokens/safenet/64bits/certisign10.6-x64-10.6.exe'"
+
+
+choco pack
+
+choco install safesign --source .
+
+choco install safesign --source="'https://ewerton.cf/pkg'"
+
+https://drivers.certisign.com.br/midias/gerenciadores/safesign/32bits/SafeSignIC30124-x86-win-tu-admin.exe
+https://drivers.certisign.com.br/midias/tokens/safenet/32bits/certisign10.6-x32-10.6.exe
+
+
+
+https://drivers.certisign.com.br/midias/gerenciadores/safesign/64bits/SafeSignIC30124-x64-win-tu-admin.exe
+/s /v/qn
+
+https://drivers.certisign.com.br/midias/tokens/safenet/64bits/certisign10.6-x64-10.6.exe
